@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:advanced_app/page/team_selection_screen.dart';
+import 'package:9-10TeamBuilderApp/page/team_selection_screen.dart';
 
 void main() async {
   // Initialize GetStorage for persistence

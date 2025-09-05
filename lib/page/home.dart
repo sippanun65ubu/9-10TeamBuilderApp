@@ -1,6 +1,6 @@
 //home.dart
 import 'package:flutter/material.dart';
-import 'package:advanced_app/page/detail.dart';
+import 'package:9-10TeamBuilderApp/page/detail.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});

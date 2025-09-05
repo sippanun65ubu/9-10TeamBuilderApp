@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:advanced_app/controller/team_controller.dart';
-import 'package:advanced_app/model/pokemon_model.dart';
+import 'package:9-10TeamBuilderApp/controller/team_controller.dart';
+import 'package:9-10TeamBuilderApp/model/pokemon_model.dart';
 
 class TeamSelectionScreen extends StatelessWidget {
   TeamSelectionScreen({super.key});

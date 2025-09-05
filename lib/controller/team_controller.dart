@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
-import 'package:advanced_app/model/pokemon_model.dart';
+import 'package:9-10TeamBuilderApp/model/pokemon_model.dart';
 
 class TeamController extends GetxController {
   // Reactive variables that automatically update the UI when they change.

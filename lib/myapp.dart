@@ -1,7 +1,7 @@
 //myapp.dart
 import 'package:flutter/material.dart';
-import 'package:advanced_app/page/home.dart';
-import 'package:advanced_app/page/playerselection.dart';
+import 'package:9-10TeamBuilderApp/page/home.dart';
+import 'package:9-10TeamBuilderApp/page/playerselection.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
