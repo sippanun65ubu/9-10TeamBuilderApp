@@ -13,7 +13,8 @@
         "get",
         "get_it",
         "get_storage",
-        "http"
+        "http",
+        "pocketbase"
       ],
       "devDependencies": [
         "flutter_lints",
@@ -43,6 +44,14 @@
         "stream_channel",
         "test_api",
         "vector_math"
+      ]
+    },
+    {
+      "name": "pocketbase",
+      "version": "0.23.0+1",
+      "dependencies": [
+        "http",
+        "json_annotation"
       ]
     },
     {
@@ -194,6 +203,13 @@
         "stream_channel",
         "string_scanner",
         "term_glyph"
+      ]
+    },
+    {
+      "name": "json_annotation",
+      "version": "4.9.0",
+      "dependencies": [
+        "meta"
       ]
     },
     {

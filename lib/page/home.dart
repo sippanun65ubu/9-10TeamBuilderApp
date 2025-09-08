@@ -1,6 +1,8 @@
 //home.dart
 import 'package:flutter/material.dart';
-import 'package:9-10TeamBuilderApp/page/detail.dart';
+import 'package:get/get.dart';
+import 'advanced_app/page/detail.dart';
+import 'advanced_app/page/save_team_page.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -48,6 +50,13 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Get.to(() => SaveTeamPage());
+              },
+              child: const Text('Go to Save Team Page'),
             ),
           ],
         ),

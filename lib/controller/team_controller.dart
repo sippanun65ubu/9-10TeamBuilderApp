@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
-import 'package:9-10TeamBuilderApp/model/pokemon_model.dart';
+import 'package:advanced_app/model/pokemon_model.dart';
 
 class TeamController extends GetxController {
   // Reactive variables that automatically update the UI when they change.
@@ -12,6 +12,7 @@ class TeamController extends GetxController {
   var teamName = 'My Pokémon Team'.obs;
   var isLoading = true.obs;
   var searchQuery = ''.obs;
+  final RxList<Map<String, dynamic>> savedTeams = <Map<String, dynamic>>[].obs;
 
   final _storage = GetStorage(); // Instance of GetStorage
 
@@ -101,5 +102,63 @@ class TeamController extends GetxController {
       selectedTeam.value =
           savedTeam.map((json) => Pokemon.fromJson(json)).toList();
     }
+  }
+  void saveCurrentTeam() {
+  savedTeams.add({
+    'name': teamName.value,
+    'pokemon': List<Pokemon>.from(selectedTeam),
+  });
+  }
+
+  void updateSavedTeam(int index, String name, List<Pokemon> pokemon) {
+    savedTeams[index] = {
+      'name': name,
+      'pokemon': pokemon,
+    };
+  }
+}
+
+class SaveTeamPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final TeamController teamController = Get.find();
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Save Your Team'),
+      ),
+      body: Obx(
+        () => ListView.builder(
+          itemCount: teamController.savedTeams.length,
+          itemBuilder: (context, index) {
+            final team = teamController.savedTeams[index];
+            return ListTile(
+              title: Text(team['name']),
+              subtitle: Text(
+                  'Pokémon: ${team['pokemon'].map((p) => p.name).join(', ')}'),
+              trailing: IconButton(
+                icon: Icon(Icons.delete),
+                onPressed: () {
+                  teamController.savedTeams.removeAt(index);
+                },
+              ),
+              onTap: () {
+                // Load the selected team into the controller
+                teamController.teamName.value = team['name'];
+                teamController.selectedTeam.value =
+                    List<Pokemon>.from(team['pokemon']);
+                Get.back();
+              },
+            );
+          },
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          Get.to(() => SaveTeamPage());
+        },
+      ),
+    );
   }
 }

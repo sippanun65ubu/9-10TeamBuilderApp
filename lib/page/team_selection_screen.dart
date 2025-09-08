@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:9-10TeamBuilderApp/controller/team_controller.dart';
-import 'package:9-10TeamBuilderApp/model/pokemon_model.dart';
+import 'package:advanced_app/controller/team_controller.dart';
+import 'package:advanced_app/model/pokemon_model.dart';
+import 'package:advanced_app/page/saved_teams_page.dart';
 
 class TeamSelectionScreen extends StatelessWidget {
   TeamSelectionScreen({super.key});
@@ -26,6 +27,21 @@ class TeamSelectionScreen extends StatelessWidget {
             icon: const Icon(Icons.refresh),
             onPressed: () => controller.resetTeam(),
             tooltip: 'Reset Team',
+          ),
+          IconButton(
+            icon: const Icon(Icons.save),
+            onPressed: () {
+              controller.saveCurrentTeam();
+              Get.snackbar('Saved', 'Team saved successfully!');
+            },
+            tooltip: 'Save Team',
+          ),
+          IconButton(
+            icon: const Icon(Icons.list),
+            onPressed: () {
+              Get.to(() => SavedTeamsPage());
+            },
+            tooltip: 'Saved Teams',
           ),
         ],
       ),
@@ -126,63 +142,61 @@ class TeamSelectionScreen extends StatelessWidget {
   }
 
   Widget _buildPokemonCard(Pokemon pokemon) {
-  return Obx(
-    () {
-      final isSelected = controller.selectedTeam.contains(pokemon);
-      return GestureDetector(
-        onTap: () => controller.selectPokemon(pokemon),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200), // ความเร็วของ animation
-          curve: Curves.easeInOut, // รูปแบบการเคลื่อนไหว
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                color: isSelected ? Colors.blue.withOpacity(0.5) : Colors.black.withOpacity(0.1),
-                blurRadius: 5,
-                spreadRadius: 1,
-              )
-            ],
-            border: Border.all(
-              color: isSelected ? Colors.blueAccent : Colors.grey.shade200,
-              width: 2,
+    return Obx(
+      () {
+        final isSelected = controller.selectedTeam.contains(pokemon);
+        return GestureDetector(
+          onTap: () => controller.selectPokemon(pokemon),
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.easeInOut,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: isSelected ? Colors.blue.withOpacity(0.5) : Colors.black.withOpacity(0.1),
+                  blurRadius: 5,
+                  spreadRadius: 1,
+                )
+              ],
+              border: Border.all(
+                color: isSelected ? Colors.blueAccent : Colors.grey.shade200,
+                width: 2,
+              ),
+            ),
+            transform: isSelected ? (Matrix4.identity()..scale(1.05)) : Matrix4.identity(),
+            child: Stack(
+              children: [
+                Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.network(pokemon.imageUrl,
+                          height: 70, width: 70, fit: BoxFit.cover),
+                      const SizedBox(height: 8),
+                      Text(
+                        pokemon.name.capitalizeFirst!,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ),
+                AnimatedOpacity(
+                  duration: const Duration(milliseconds: 200),
+                  opacity: isSelected ? 1.0 : 0.0,
+                  child: const Positioned(
+                    top: 4,
+                    right: 4,
+                    child: Icon(Icons.check_circle, color: Colors.blueAccent),
+                  ),
+                ),
+              ],
             ),
           ),
-          // ทำให้การ์ดขยายใหญ่ขึ้นเล็กน้อยเมื่อถูกเลือก
-          transform: isSelected ? (Matrix4.identity()..scale(1.05)) : Matrix4.identity(),
-          child: Stack(
-            children: [
-              Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.network(pokemon.imageUrl,
-                        height: 70, width: 70, fit: BoxFit.cover),
-                    const SizedBox(height: 8),
-                    Text(
-                      pokemon.name.capitalizeFirst!,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ),
-              // ทำให้ไอคอน Check ค่อยๆ ปรากฏและหายไป
-              AnimatedOpacity(
-                duration: const Duration(milliseconds: 200),
-                opacity: isSelected ? 1.0 : 0.0,
-                child: const Positioned(
-                  top: 4,
-                  right: 4,
-                  child: Icon(Icons.check_circle, color: Colors.blueAccent),
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    },
-  );
-}
+        );
+      },
+    );
+  }
 }
