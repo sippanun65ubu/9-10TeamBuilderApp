@@ -3,6 +3,7 @@ import 'package:pocketbase/pocketbase.dart';
 import '../models/product_model.dart'; // Corrected import path
 import '../pocketbase_client.dart';
 import 'edit_product_page.dart'; // Corrected import path
+import 'create.dart';
 
 class ProductsPage extends StatefulWidget {
   const ProductsPage({super.key});
@@ -126,7 +127,7 @@ class _ProductsPageState extends State<ProductsPage> {
     }
   }
 
-  @override
+ @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -154,11 +155,20 @@ class _ProductsPageState extends State<ProductsPage> {
                   return ProductCard(
                     product: product,
                     onDelete: () => _deleteProduct(product.id),
-                    onEdit: _fetchProducts, // Pass the method as a callback
+                    onEdit: _fetchProducts,
                   );
                 },
               ),
             ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          await Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => const CreateProductPage()),
+          );
+          _fetchProducts(); // Refresh after adding
+        },
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }
